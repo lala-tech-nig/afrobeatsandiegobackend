@@ -1,20 +1,29 @@
-
-
 const Carousel = require('../models/Carousel');
+const fs = require('fs');
 const path = require('path');
 
 // Handle bulk upload
 exports.uploadCarousels = async (req, res) => {
   try {
-    const existingCount = await Carousel.countDocuments();
     const files = req.files;
 
     if (!files || files.length !== 3) {
       return res.status(400).json({ message: 'Exactly 3 images must be uploaded.' });
     }
 
-    if (existingCount + files.length > 3) {
-      return res.status(400).json({ message: 'You can only have up to 3 carousel images in total.' });
+    // Find and delete last 3 images from DB and disk
+    const existingImages = await Carousel.find().sort({ createdAt: -1 }).limit(3);
+    for (const img of existingImages) {
+      // Remove leading slash if present
+      const relativePath = img.imageUrl.startsWith('/') ? img.imageUrl.slice(1) : img.imageUrl;
+      const filePath = path.join(__dirname, '..', relativePath);
+      fs.unlink(filePath, err => {
+        if (err) console.warn(`Could not delete file: ${filePath}`);
+      });
+    }
+    const existingIds = existingImages.map(img => img._id);
+    if (existingIds.length > 0) {
+      await Carousel.deleteMany({ _id: { $in: existingIds } });
     }
 
     const imagesToSave = files.map(file => ({
