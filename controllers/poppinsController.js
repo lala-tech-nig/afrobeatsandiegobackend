@@ -30,16 +30,6 @@ exports.getPoppins = async (req, res) => {
   }
 };
 
-// Delete a poppin post
-exports.deletePoppin = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const post = await Poppin.findByIdAndDelete(id);
-    if (!post) return res.status(404).json({ message: 'Poppin post not found' });
-
-    res.json({ message: 'Poppin post deleted successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error deleting poppin post', error: error.message });
-  }
+exports.togglePoppinStatus = async (req, res) => {
+  res.json({ message: 'Toggle status endpoint' });
 };

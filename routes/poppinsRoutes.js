@@ -1,9 +1,14 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router(); // ✅ correct
 const poppinsController = require('../controllers/poppinsController');
 
-router.post('/', poppinsController.createPoppins);
-router.get('/', poppinsController.getPoppinsEntries);
-router.delete('/:id', poppinsController.deletePoppins);
+// Route for creating a new poppin
+router.post('/', poppinsController.createPoppin);
+
+// Route for getting all poppins
+router.get('/', poppinsController.getPoppins);
+
+// Route for updating a poppin's status
+router.put('/:id/status', poppinsController.togglePoppinStatus);
 
 module.exports = router;
