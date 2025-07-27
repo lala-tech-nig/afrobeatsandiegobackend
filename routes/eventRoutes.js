@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const calendarController = require('../controllers/calendarController'); // ✅
+const eventController = require('../controllers/eventController');
 
-router.post('/', calendarController.createEvent); // ✅ make sure createEvent exists
-router.get('/', calendarController.getEvents);
-router.put('/:id/status', calendarController.toggleEventStatus);
+router.post('/', eventController.createEvent); // ✅ make sure createEvent exists
+router.get('/', eventController.getEvents);
+router.put('/:id/status', eventController.toggleEventStatus);
 
 module.exports = router;

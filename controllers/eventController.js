@@ -1,48 +1,50 @@
 const Event = require('../models/Event');
 
-// Submit a new event
-exports.submitEvent = async (req, res) => {
+// Submit (Create) a new event
+exports.createEvent = async (req, res) => {
   try {
-    const { title, description, date, time, venue, coverImage, additionalImages } = req.body;
+    const { title, link, time, description, image, thumnail, date } = req.body;
 
     const event = new Event({
       title,
-      description,
-      date,
+      link,
       time,
-      venue,
-      coverImage,
-      additionalImages,
+      description,
+      image,
+      thumnail,
+      date
     });
 
     await event.save();
-
-    res.status(201).json({ message: 'Event submitted successfully', data: event });
+    res.status(201).json({ message: 'Event created successfully', data: event });
   } catch (error) {
-    res.status(500).json({ message: 'Error submitting event', error: error.message });
+    res.status(500).json({ message: 'Error creating event', error: error.message });
   }
 };
 
-// Get all submitted events
+// Get all events (sorted by date ascending)
 exports.getEvents = async (req, res) => {
   try {
-    const events = await Event.find().sort({ date: 1 }); // Sorted by upcoming date
+    const events = await Event.find().sort({ date: 1 });
     res.json({ data: events });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching events', error: error.message });
   }
 };
 
-// Delete an event
-exports.deleteEvent = async (req, res) => {
+// Toggle `isPosted` status of a single event
+exports.toggleEventStatus = async (req, res) => {
   try {
     const { id } = req.params;
-    const event = await Event.findByIdAndDelete(id);
 
+    const event = await Event.findById(id);
     if (!event) return res.status(404).json({ message: 'Event not found' });
 
-    res.json({ message: 'Event deleted successfully' });
+    event.isPosted = !event.isPosted;
+    await event.save();
+
+    res.json({ message: 'Event status toggled successfully', data: event });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting event', error: error.message });
+    res.status(500).json({ message: 'Error updating event status', error: error.message });
   }
 };
