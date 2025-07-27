@@ -12,6 +12,11 @@ const calendarSchema = new mongoose.Schema({
     required: true
   },
 
+  imageUrl: { 
+    type: String, 
+    required: true 
+  },
+
   location: String,
 
   published: {
