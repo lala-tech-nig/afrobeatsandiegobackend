@@ -1,32 +1,45 @@
 const mongoose = require('mongoose');
 
 const calendarSchema = new mongoose.Schema({
-  title: {
+  name: {
     type: String,
     required: true
   },
-  description: String,
-
-  date: {
+  email: {
+    type: String,
+    required: true
+  },
+  eventTitle: {
+    type: String,
+    required: true
+  },
+  eventDetails: {
+    type: String,
+    required: true
+  },
+  eventDate: {
     type: Date,
     required: true
   },
-
-  imageUrl: { 
-    type: String, 
-    required: true 
+  phone: {
+    type: String,
+    required: true
   },
-
-  location: String,
-
-  published: {
-    type: Boolean,
-    default: false
+  location: {
+    type: String,
+    required: true
   },
-
+  imageUrl: {
+    type: String,
+    required: true
+  },
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  published: {
+    type: Boolean,
+    default: false
   }
 });
 

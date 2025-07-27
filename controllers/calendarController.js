@@ -6,10 +6,21 @@ const Calendar = require('../models/Calendar');
 exports.createEvent = async (req, res) => {
   try {
     // Build event data from form fields
-    const eventData = { ...req.body };
+    const eventData = {
+      name: req.body.name || "",
+      email: req.body.email || "",
+      eventTitle: req.body.eventTitle || "",
+      eventDetails: req.body.eventDetails || "",
+      eventDate: req.body.eventDate || "",
+      phone: req.body.phone || "",
+      location: req.body.location || "",
+      image: null, // default value
+      imageUrl: ""
+    };
 
-    // If image was uploaded, save its path
+    // If image was uploaded, save its path and file info
     if (req.file) {
+      eventData.image = req.file; // Store file info if needed
       eventData.imageUrl = `/uploads/${req.file.filename}`;
     }
 
