@@ -20,6 +20,6 @@ exports.createEvent = async (req, res) => {
     await event.save();
     res.status(201).json({ message: 'Event created successfully', data: event });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating event', error: error.message });
+    res.status(504).json({ message: 'Error creating event', error: error.message });
   }
 };
