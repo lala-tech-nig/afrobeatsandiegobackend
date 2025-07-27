@@ -17,6 +17,8 @@
 // module.exports = router;
 
 
+
+
 const express = require('express');
 const router = express.Router();
 const eventController = require('../controllers/eventController');
@@ -48,7 +50,7 @@ router.post(
   '/',
   upload.fields([
     { name: 'image', maxCount: 1 },
-    { name: 'thumnail', maxCount: 1 }
+    { name: 'thumbnail', maxCount: 1 } // ✅ fixed typo here
   ]),
   eventController.createEvent
 );
