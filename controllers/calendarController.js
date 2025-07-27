@@ -5,7 +5,15 @@ const Calendar = require('../models/Calendar');
 // Create calendar event
 exports.createEvent = async (req, res) => {
   try {
-    const event = new Calendar(req.body);
+    // Build event data from form fields
+    const eventData = { ...req.body };
+
+    // If image was uploaded, save its path
+    if (req.file) {
+      eventData.imageUrl = `/uploads/${req.file.filename}`;
+    }
+
+    const event = new Calendar(eventData);
     await event.save();
     res.status(201).json(event);
   } catch (error) {
