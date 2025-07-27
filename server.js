@@ -21,6 +21,7 @@ app.use(express.json());
 app.use('/uploads', express.static('uploads'));
 
 
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
