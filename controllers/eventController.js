@@ -33,3 +33,18 @@ exports.getEvents = async (req, res) => {
     res.status(500).json({ message: 'Error fetching events', error: error.message });
   }
 };
+
+exports.toggleEventStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const event = await Event.findById(id);
+    if (!event) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+    event.isFree = !event.isFree;
+    await event.save();
+    res.status(200).json({ message: 'Event status toggled', data: event });
+  } catch (error) {
+    res.status(500).json({ message: 'Error toggling event status', error: error.message });
+  }
+};
