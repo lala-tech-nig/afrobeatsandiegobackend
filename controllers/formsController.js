@@ -4,9 +4,9 @@ const LetsConnect = require('../models/LetsConnect');
 // Book a call
 exports.createBookCall = async (req, res) => {
   try {
-    const { name, phone, preferredDate, preferredTime, status } = req.body;
+    const { fullName, phoneNumber, email, message } = req.body;
 
-    const newCall = new BookCall({ name, phone, preferredDate, preferredTime, status });
+    const newCall = new BookCall({ fullName, phoneNumber, email, message });
     await newCall.save();
 
     res.status(201).json({ message: 'Call booking submitted successfully', data: newCall });
