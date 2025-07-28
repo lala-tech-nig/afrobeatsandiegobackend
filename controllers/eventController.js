@@ -23,3 +23,13 @@ exports.createEvent = async (req, res) => {
     res.status(504).json({ message: 'Error creating event', error: error.message });
   }
 };
+
+// ✅ Add this missing function
+exports.getEvents = async (req, res) => {
+  try {
+    const events = await Event.find();
+    res.status(200).json({ message: 'Events fetched successfully', data: events });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching events', error: error.message });
+  }
+};
